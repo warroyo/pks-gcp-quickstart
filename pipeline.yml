@@ -49,7 +49,7 @@ resources:
   source:
     api_token: ((pivnet-api-token))
     product_slug: ops-manager
-    product_version: 2.5.3
+    product_version: 2.5.2
     sort_by: semver
 
 - name: pks
@@ -65,7 +65,7 @@ resources:
   source:
     api_token: ((pivnet_token))
     product_slug: stemcells-ubuntu-xenial
-    product_version: 250.25
+    product_version: '250.25'
     sort_by: semver
 
 # - name: harbor
@@ -153,20 +153,20 @@ resources:
 
 
 interpolate: &interpolate
-  task: interpolate-config
-  file: pcf-automation-source/tasks/interpolate.yml
-  input_mapping:
-    config: configuration
-    terraform-output: env-state-gcp
-  output_mapping:
-    interpolated-config: configuration-interpolated
-  params:
-    ENV_NAME: ((pks.env_name))
-    PIVNET_API_TOKEN: ((pivnet-api-token))
-    GCP_AUTH_JSON: ((gcp.gcp_service_account))
-    OM_USERNAME: ((opsman.username))
-    OM_PASSWORD: ((opsman.password))
-    OM_DECRYPTION_PASSPHRASE: ((opsman.decryption-passphrase))
+    task: interpolate-config
+    file: pcf-automation-source/tasks/interpolate.yml
+    input_mapping:
+      config: configuration
+      terraform-output: env-state-gcp
+    output_mapping:
+      interpolated-config: configuration-interpolated
+    params:
+      ENV_NAME: ((pks.env_name))
+      PIVNET_API_TOKEN: ((pivnet-api-token))
+      GCP_AUTH_JSON: ((gcp.gcp_service_account))
+      OM_USERNAME: ((opsman.username))
+      OM_PASSWORD: ((opsman.password))
+      OM_DECRYPTION_PASSPHRASE: ((opsman.decryption-passphrase))
 
 
 rename-tf-source: &rename-tf-source
@@ -233,8 +233,6 @@ jobs:
               git clone config config-commit
               mkdir -p config-commit/$ENV_NAME
               cp -a pcf-automation/templates/* config-commit/$ENV_NAME
-              cp -a pcf-automation/terraforming-gcp config-commit/$ENV_NAME
-              cp -a pcf-automation/terraform_override_files config-commit/$ENV_NAME
               cd config-commit
               git add -A
               git diff-index --quiet HEAD || git commit -m "$COMMIT_MESSAGE"
