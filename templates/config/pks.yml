@@ -1,0 +1,113 @@
+product-name: pivotal-container-service
+product-properties:
+  .pivotal-container-service.pks_tls:
+    value:
+      cert_pem: {{ (ds "data").ssl_cert | strings.Indent 10 }}
+      private_key_pem: {{ (ds "data").ssl_private_key | strings.Indent 10 }}
+  .properties.network_selector:
+    value: flannel
+  .properties.network_selector.flannel.pod_network_cidr:
+    value: 10.200.0.0/16
+  .properties.network_selector.flannel.service_cluster_cidr:
+    value: 10.100.200.0/24
+  .properties.pks-vrli:
+    value: disabled
+  .properties.pks_api_hostname:
+    value: {{ (ds "data").pks_api_endpoint }}
+  .properties.plan1_selector:
+    value: Plan Active
+  .properties.plan1_selector.active.master_az_placement:
+    value:
+    - us-east-1a
+    - us-east-1b
+    - us-east-1c
+  .properties.plan1_selector.active.worker_az_placement:
+    value:
+    - us-east-1a
+    - us-east-1b
+    - us-east-1c
+  .properties.plan2_selector:
+    value: Plan Active
+  .properties.plan2_selector.active.master_az_placement:
+    value:
+    - us-east-1a
+    - us-east-1b
+    - us-east-1c
+  .properties.plan2_selector.active.worker_az_placement:
+    value:
+    - us-east-1a
+    - us-east-1b
+    - us-east-1c
+  .properties.plan3_selector:
+    value: Plan Inactive
+  .properties.plan4_selector:
+    value: Plan Inactive
+  .properties.plan5_selector:
+    value: Plan Inactive
+  .properties.plan6_selector:
+    value: Plan Inactive
+  .properties.plan7_selector:
+    value: Plan Inactive
+  .properties.plan8_selector:
+    value: Plan Inactive
+  .properties.plan9_selector:
+    value: Plan Inactive
+  .properties.plan10_selector:
+    value: Plan Inactive
+  .properties.proxy_selector:
+    value: Disabled
+  .properties.sink_resources_selector:
+    value: enabled
+  .properties.syslog_selector:
+    value: disabled
+  .properties.telemetry_selector:
+    value: disabled
+  .properties.uaa:
+    value: internal
+  .properties.uaa_oidc:
+    value: false
+  .properties.uaa_pks_cli_access_token_lifetime:
+    value: 600
+  .properties.uaa_pks_cli_refresh_token_lifetime:
+    value: 21600
+  .properties.vm_extensions:
+    value:
+    - public_ip
+  .properties.wavefront:
+    value: disabled
+  .properties.worker_max_in_flight:
+    value: 1
+network-properties:
+  network:
+    name: {{ (ds "data").pks_subnet_name }} 
+  other_availability_zones:
+  - name: {{ index (ds "data").azs 0 }}
+  - name: {{ index (ds "data").azs 1 }}
+  - name: {{ index (ds "data").azs 2 }}
+  service_network: 
+    name: {{ (ds "data").pks_services_subnet_name }}
+  singleton_availability_zone:
+    name: {{ index (ds "data").azs 0 }}
+resource-config:
+  pivotal-container-service:
+      instances: automatic
+      persistent_disk:
+        size_mb: automatic
+      instance_type:
+        id: automatic
+      internet_connected: true
+      elb_names:
+      - tcp:{{ (ds "data").pks_lb_backend_name }}
+errand-config:
+  delete-all-clusters:
+    pre-delete-state: true
+  pks-nsx-t-precheck:
+    post-deploy-state: true
+  smoke-tests:
+    post-deploy-state: true
+  upgrade-all-service-instances:
+    post-deploy-state: true
+  wavefront-alert-creation:
+    post-deploy-state: false
+  wavefront-alert-deletion:
+    pre-delete-state: false

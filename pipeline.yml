@@ -99,6 +99,7 @@ resources:
       service_account_key: ((gcp.gcp_service_account))
       buckets_location: ((gcp.buckets_location))
       dns_suffix: ((gcp.parent_zone.dns_suffix))
+      opsman_vm: false
       opsman_image_url: ""
       parent_managed_zone: ((gcp.parent_zone.name))
 
@@ -272,7 +273,6 @@ jobs:
     params:
       env_name: ((pks.env_name))
       terraform_source: tf-source/terraforming-pks
-      override_files:
       delete_on_failure: false
 
 # INSTALL JOBS
