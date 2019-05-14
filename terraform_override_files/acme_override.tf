@@ -104,9 +104,3 @@ output "opsman_ssl_private_key" {
   sensitive = true
   value     = "${acme_certificate.opsman-certificate.private_key_pem}"
 }
-
-## update module
-
-module "pks" {
-  ssl_certificate   = "${google_compute_ssl_certificate.certificate.self_link}"
-}

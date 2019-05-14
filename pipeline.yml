@@ -234,6 +234,7 @@ jobs:
               git clone config config-commit
               mkdir -p config-commit/$ENV_NAME
               cp -a pcf-automation/templates/* config-commit/$ENV_NAME
+              cp -a pcf-automation/terraform_override_files config-commit/$ENV_NAME
               cd config-commit
               git add -A
               git diff-index --quiet HEAD || git commit -m "$COMMIT_MESSAGE"
@@ -274,8 +275,8 @@ jobs:
       env_name: ((pks.env_name))
       terraform_source: tf-source/terraforming-pks
       override_files:
-        - configuration/((pas.env_name))/terraform_override_files/dns_override.tf
-        - configuration/((pas.env_name))/terraform_override_files/acme_override.tf
+        - configuration/((pks.env_name))/terraform_override_files/dns_override.tf
+        - configuration/((pks.env_name))/terraform_override_files/acme_override.tf
       delete_on_failure: false
 
 # INSTALL JOBS
