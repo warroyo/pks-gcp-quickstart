@@ -101,6 +101,7 @@ resources:
       dns_suffix: ((gcp.parent_zone.dns_suffix))
       opsman_vm: false
       opsman_image_url: ""
+      parent_managed_zone: ((gcp.parent_zone.name))
       email: ((email))
 
 
@@ -275,6 +276,7 @@ jobs:
       env_name: ((pks.env_name))
       terraform_source: tf-source/terraforming-pks
       override_files:
+        - configuration/((pks.env_name))/terraform_override_files/dns_override.tf
         - configuration/((pks.env_name))/terraform_override_files/acme_override.tf
       delete_on_failure: false
 
