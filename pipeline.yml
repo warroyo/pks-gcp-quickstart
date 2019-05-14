@@ -273,6 +273,9 @@ jobs:
     params:
       env_name: ((pks.env_name))
       terraform_source: tf-source/terraforming-pks
+      override_files:
+        - configuration/((pas.env_name))/terraform_override_files/dns_override.tf
+        - configuration/((pas.env_name))/terraform_override_files/acme_override.tf
       delete_on_failure: false
 
 # INSTALL JOBS
