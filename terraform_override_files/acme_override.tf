@@ -85,6 +85,7 @@ resource "acme_certificate" "opsman-certificate" {
   depends_on                = ["google_dns_record_set.nameserver","null_resource.dns-propagation-wait"]
   dns_challenge {
     provider                  = "gcloud"
+    recursive_nameservers = ["8.8.8.8:53","8.8.4.4:53"]
     config {
       GCE_PROJECT               = "${var.project}"
       GCE_SERVICE_ACCOUNT       = "${var.service_account_key}"
