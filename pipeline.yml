@@ -273,11 +273,14 @@ jobs:
     <<: *rename-tf-source
   - put: env-state-gcp
     params:
+      env:
+        TF_LOG: DEBUG
       env_name: ((pks.env_name))
       terraform_source: tf-source/terraforming-pks
       override_files:
         - configuration/((pks.env_name))/terraform_override_files/dns_override.tf
         - configuration/((pks.env_name))/terraform_override_files/acme_override.tf
+        # - configuration/((pks.env_name))/terraform_override_files/output_override.tf
       delete_on_failure: false
 
 # INSTALL JOBS
@@ -545,15 +548,24 @@ jobs:
       trigger: true
       passed:
       - destroy-installation
-    - get: state
+    - get: tf
+      params:
+        globs:
+        - "terraforming-gcp-*.zip"
+        unpack: true
+  - get: pcf-automation-source
+  - get: state
+  - task: rename-folder
+    <<: *rename-tf-source
   - put: env-state-gcp
     params:
-      terraform_source: configuration/((pks.env_name))/terraforming-gcp/terraforming-pks
+      env_name: ((pks.env_name))
+      terraform_source: tf-source/terraforming-pks
       override_files:
         - configuration/((pks.env_name))/terraform_override_files/dns_override.tf
         - configuration/((pks.env_name))/terraform_override_files/acme_override.tf
-      delete_on_failure: true
-      env_name: ((pks.env_name))
+        # - configuration/((pks.env_name))/terraform_override_files/output_override.tf
+      delete_on_failure: false
       action: destroy
     get_params:
       action: destroy
