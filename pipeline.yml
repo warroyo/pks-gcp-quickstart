@@ -4,7 +4,7 @@ resource_types:
   type: docker-image
   source:
     repository: ljfranklin/terraform-resource
-    tag: 0.11.13
+    tag: nightly
 - name: pivnet
   type: docker-image
   source:
