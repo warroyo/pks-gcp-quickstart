@@ -8,7 +8,7 @@ variable "email" {
 
 provider "acme" {
   server_url = "https://acme-v02.api.letsencrypt.org/directory"
-  version = "~> 1.2.1"
+  version = "~> 1.3.0"
 }
 
 resource "tls_private_key" "pks_private_key" {
