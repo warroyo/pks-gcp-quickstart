@@ -406,6 +406,9 @@ jobs:
     - get: platform-automation-tasks
       params: {unpack: true,globs: [platform-automation-tasks-*.zip]}
     - get: pks-stemcell
+      params:
+        globs:
+        - light-bosh-stemcell-*-google-*.tgz
     - get: configuration
       trigger: true
       passed: [ install-opsman ]
@@ -431,6 +434,9 @@ jobs:
     - get: platform-automation-tasks
       params: {unpack: true,globs: [platform-automation-tasks-*.zip]}
     - get: pks
+      params:
+        globs:
+        - pivotal-container-service-*.pivotal
     - get: configuration
       trigger: true
       passed: [ upload-stemcell ]
@@ -441,7 +447,7 @@ jobs:
     image: platform-automation-image
     file: platform-automation-tasks/tasks/upload-product.yml
     input_mapping:
-      product: pks-product
+      product: pks
       env: configuration-interpolated
     params:
       ENV_FILE: ((pks.env_name))/env/env.yml
@@ -449,7 +455,7 @@ jobs:
     image: platform-automation-image
     file: platform-automation-tasks/tasks/stage-product.yml
     input_mapping:
-      product: pks-product
+      product: pks
       env: configuration-interpolated
     params:
       ENV_FILE: ((pks.env_name))/env/env.yml
@@ -567,7 +573,7 @@ jobs:
       override_files:
         - configuration/((pks.env_name))/terraform_override_files/dns_override.tf
         - configuration/((pks.env_name))/terraform_override_files/acme_override.tf
-        # - configuration/((pks.env_name))/terraform_override_files/output_override.tf
+        - configuration/((pks.env_name))/terraform_override_files/output_override.tf
       delete_on_failure: false
       action: destroy
     get_params:

@@ -14,8 +14,8 @@ It is using [terraforming-gcp](https://github.com/pivotal-cf/terraforming-gcp) a
 * GCP account
 * Pivotal Network account
 * Private Git Repository
-* three private GCS Buckets
-* concourse
+* 1 private GCS Buckets
+* concourse(local if neccessary)
 * a (sub-)domain hosted on GCP
 
 # Credentials
@@ -26,7 +26,8 @@ Copy the `credentials-template.yml` file to `credentials.yml` and modify the app
 # Deploy Pipline
 
 ```
-fly login -t env -c https://concourse.domain.com -n team
-fly -t env set-pipeline -p pcf-platform-automation -c pipeline.yml -l credentials.yml --verbose
-fly -t env unpause-pipeline -p pcf-platform-automation
+docker-compose up
+fly login -t local -c  http://localhost:8080
+fly -t local set-pipeline -p pks-gcp-quickstart -c pipeline.yml -l credentials.yml --verbose
+fly -t local unpause-pipeline -p pks-gcp-quickstart
 ```
