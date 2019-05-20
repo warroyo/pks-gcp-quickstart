@@ -37,7 +37,7 @@ resource "acme_certificate" "pks-certificate" {
   common_name               = "${var.env_name}.${var.dns_suffix}"
   subject_alternative_names = "${formatlist("%s.${var.env_name}.${var.dns_suffix}", local.subdomains)}"
   depends_on                = ["google_dns_record_set.nameserver","null_resource.dns-propagation-wait"]
-  recursive_nameservers = ["8.8.8.8:53","8.8.4.4:53"]
+  # recursive_nameservers = ["8.8.8.8:53","8.8.4.4:53"]
 
   dns_challenge {
     provider                  = "gcloud"
@@ -85,7 +85,7 @@ resource "acme_certificate" "opsman-certificate" {
   account_key_pem           = "${acme_registration.reg.account_key_pem}"
   common_name               = "${module.ops_manager.ops_manager_dns}"
   depends_on                = ["google_dns_record_set.nameserver","null_resource.dns-propagation-wait"]
-  recursive_nameservers = ["8.8.8.8:53","8.8.4.4:53"]
+  # recursive_nameservers = ["8.8.8.8:53","8.8.4.4:53"]
 
   dns_challenge {
     provider                  = "gcloud"
