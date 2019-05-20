@@ -2,8 +2,10 @@ product-name: pivotal-container-service
 product-properties:
   .pivotal-container-service.pks_tls:
     value:
-      cert_pem: {{ (ds "data").ssl_cert | strings.Indent 10 }}
-      private_key_pem: {{ (ds "data").ssl_private_key | strings.Indent 10 }}
+      cert_pem: |
+{{ (ds "data").ssl_cert | strings.Indent 10 }}
+      private_key_pem: |
+{{ (ds "data").ssl_private_key | strings.Indent 10 }}
   .properties.network_selector:
     value: flannel
   .properties.network_selector.flannel.pod_network_cidr:

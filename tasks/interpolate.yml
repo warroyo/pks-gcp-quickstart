@@ -36,11 +36,8 @@ run:
         set -eu
         mkdir -p interpolated-config/$ENV_NAME/config
         mkdir -p interpolated-config/$ENV_NAME/env
-        #/bin/gomplate -f config/$ENV_NAME/config/auth.yml -d data=file://$(pwd)/terraform-output/metadata?type=application/json -o interpolated-config/$ENV_NAME/config/auth.yml --verbose
-        #/bin/gomplate -f config/$ENV_NAME/config/director.yml -d data=file://$(pwd)/terraform-output/metadata?type=application/json -o interpolated-config/$ENV_NAME/config/director.yml --verbose
         /bin/gomplate --input-dir config/$ENV_NAME/config -d data=file://$(pwd)/terraform-output/metadata?type=application/json --output-dir interpolated-config/$ENV_NAME/config --verbose
         /bin/gomplate -i $'gcp_auth_json: |\n{{env.Getenv "GCP_AUTH_JSON" | strings.Indent 2 }}' -o interpolated-config/$ENV_NAME/config/director-vars.yml --verbose
-        #/bin/gomplate -f config/$ENV_NAME/config/opsman.yml -d data=file://$(pwd)/terraform-output/metadata?type=application/json -o interpolated-config/$ENV_NAME/config/opsman.yml --verbose
         /bin/gomplate -i $'gcp_auth_json: |\n{{env.Getenv "GCP_AUTH_JSON" | strings.Indent 2 }}' -o interpolated-config/$ENV_NAME/config/opsman-vars.yml --verbose
         /bin/gomplate -f config/$ENV_NAME/env/env.yml -d data=file://$(pwd)/terraform-output/metadata?type=application/json -o interpolated-config/$ENV_NAME/env/env.yml --verbose
- 
+  

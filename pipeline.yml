@@ -309,7 +309,7 @@ jobs:
     image: platform-automation-image
     file: platform-automation-tasks/tasks/create-vm.yml
     input_mapping:
-      image: opsman-image
+      image: opsman
       state: state
       config: configuration-interpolated
     params:
@@ -361,7 +361,7 @@ jobs:
   - task: configure-authentication
     image: platform-automation-image
     file: platform-automation-tasks/tasks/configure-authentication.yml
-    attempts: 10
+    attempts: 20
     input_mapping:
       env: configuration-interpolated
       config: configuration-interpolated
