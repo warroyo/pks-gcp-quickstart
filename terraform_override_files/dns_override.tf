@@ -13,6 +13,6 @@ resource "google_dns_record_set" "nameserver" {
 }
 
 
-resource resource "google_dns_managed_zone" "default" {
+resource  "google_dns_managed_zone" "default" {
     visibility = "public"
 }
