@@ -11,8 +11,3 @@ resource "google_dns_record_set" "nameserver" {
 
   rrdatas = ["${module.infra.dns_zone_name_servers}"]
 }
-
-
-resource  "google_dns_managed_zone" "default" {
-    visibility = "public"
-}
