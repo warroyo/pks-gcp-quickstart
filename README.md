@@ -13,8 +13,8 @@ It is using [terraforming-gcp](https://github.com/pivotal-cf/terraforming-gcp) a
 
 * GCP account
 * Pivotal Network account
-* Private Git Repository
-* 1 private GCS Buckets
+* Git Repository
+* 1 private GCS Bucket
 * concourse(local if neccessary)
 * a (sub-)domain hosted on GCP
 

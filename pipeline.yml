@@ -484,8 +484,7 @@ jobs:
       config: configuration-interpolated
       env: configuration-interpolated
     params:
-      CONFIG_FILE: ((pks.env_name))/config/cf.yml
-      VARS_FILES: config/((pks.env_name))/config/cf-vars.yml
+      CONFIG_FILE: ((pks.env_name))/config/pks.yml
       ENV_FILE: ((pks.env_name))/env/env.yml
 
 - name: apply-product-changes
