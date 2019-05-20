@@ -280,7 +280,7 @@ jobs:
       override_files:
         - configuration/((pks.env_name))/terraform_override_files/dns_override.tf
         - configuration/((pks.env_name))/terraform_override_files/acme_override.tf
-        # - configuration/((pks.env_name))/terraform_override_files/output_override.tf
+        - configuration/((pks.env_name))/terraform_override_files/output_override.tf
       delete_on_failure: false
 
 # INSTALL JOBS
@@ -296,6 +296,9 @@ jobs:
     - get: one-time-trigger
       trigger: true
     - get: opsman
+      params:
+        globs: 
+        - '*gcp*.yml'
     - get: configuration
       passed: [terraforming-gcp]
     - get: state
