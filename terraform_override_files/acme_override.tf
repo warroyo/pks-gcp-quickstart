@@ -91,7 +91,7 @@ resource "acme_certificate" "opsman-certificate" {
   dns_challenge {
     provider                  = "gcloud"
     config {
-      GCE_DEBUG                 = true
+      GCE_DEBUG                 = "true"
       GCE_PROJECT               = "${var.project}"
       GCE_SERVICE_ACCOUNT       = "${var.service_account_key}"
       GCE_PROPAGATION_TIMEOUT   = "600"
