@@ -273,8 +273,8 @@ jobs:
     <<: *rename-tf-source
   - put: env-state-gcp
     params:
-      env:
-        TF_LOG: DEBUG
+      # env:
+      #   TF_LOG: DEBUG
       env_name: ((pks.env_name))
       terraform_source: tf-source/terraforming-pks
       override_files:
