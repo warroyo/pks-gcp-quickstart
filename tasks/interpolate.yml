@@ -42,5 +42,5 @@ run:
         /bin/gomplate -i $'gcp_auth_json: |\n{{env.Getenv "GCP_AUTH_JSON" | strings.Indent 2 }}' -o interpolated-config/$ENV_NAME/config/director-vars.yml --verbose
         #/bin/gomplate -f config/$ENV_NAME/config/opsman.yml -d data=file://$(pwd)/terraform-output/metadata?type=application/json -o interpolated-config/$ENV_NAME/config/opsman.yml --verbose
         /bin/gomplate -i $'gcp_auth_json: |\n{{env.Getenv "GCP_AUTH_JSON" | strings.Indent 2 }}' -o interpolated-config/$ENV_NAME/config/opsman-vars.yml --verbose
-        /bin/gomplate -i 'pivnet-api-token: {{env.Getenv "PIVNET_API_TOKEN" }}' -o interpolated-config/$ENV_NAME/download-product-configs/vars.yml --verbose
         /bin/gomplate -f config/$ENV_NAME/env/env.yml -d data=file://$(pwd)/terraform-output/metadata?type=application/json -o interpolated-config/$ENV_NAME/env/env.yml --verbose
+ 
