@@ -13,6 +13,6 @@ resource "google_dns_record_set" "nameserver" {
 }
 
 
-resource "google_dns_record_set" "wildcard-pks-dns" {
+resource resource "google_dns_managed_zone" "default" {
     visibility = "public"
 }
