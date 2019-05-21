@@ -28,6 +28,6 @@ run:
 
     echo "starting cluster creation"
     ./pks-cli login -a $PKS_API -u admin -p $PKS_PASSWORD -k
-    ./pks-cli create-cluster -e "${CLUSTER_DOMAIN}" -p small --wait
+    ./pks-cli create-cluster -e "${CLUSTER_HOSTNAME}" -p small --wait
 
     
