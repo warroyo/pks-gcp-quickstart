@@ -4,6 +4,7 @@ platform: linux
 inputs:
 - name: env # contains the env file with target OpsMan Information
 - name: terraform-output
+- name: pks
 params:
   ENV_FILE: env.yml
   CLUSTER_HOSTNAME:

@@ -646,6 +646,7 @@ jobs:
     input_mapping:
       terraform-output: env-state-gcp
       env: configuration-interpolated
+      pks: pks
     params:
       ENV_FILE: ((pks.env_name))/env/env.yml
       CLUSTER_HOSTNAME: ((pks.cluster_name)).((pks.env_name)).((gcp.parent_zone.dns_suffix))
