@@ -20,11 +20,13 @@ run:
     cat /var/version && echo ""
     curl -L -s -o jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
     chmod +x jq
+    mv pks/pks-linux-* pks-cli
+    chmod +x pks-cli
     export PKS_PASSWORD="$(om --env env/${ENV_FILE} credentials --product-name pivotal-container-service --credential-reference .properties.uaa_admin_password)" 
     export PKS_API="$(./jq -r .pks_api_endpoint terraform-output/metadata)"
 
 
-    pks login -a $PKS_API -u admin -p $PKS_PASSWORD
-    pks create-cluster -e "${CLUSTER_DOMAIN}" -p small --wait
+    pks-cli login -a $PKS_API -u admin -p $PKS_PASSWORD
+    pks-cli create-cluster -e "${CLUSTER_DOMAIN}" -p small --wait
 
     
