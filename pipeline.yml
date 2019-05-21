@@ -676,6 +676,7 @@ jobs:
   - get: configuration
     trigger: true
     passed: ['create-cluster']
+  - get: env-state-gcp
   - get: pcf-automation-source
   - <<: *interpolate
   - put: cluster-state-gcp
@@ -698,7 +699,7 @@ groups:
   - apply-product-changes
 - name: create-cluster
   jobs:
-  # - terraforming-k8s
+  - terraforming-k8s
   - create-cluster
 - name: destroy
   jobs:
