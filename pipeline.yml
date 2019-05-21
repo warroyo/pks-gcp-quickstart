@@ -649,6 +649,7 @@ jobs:
       pks: pks
     params:
       ENV_FILE: ((pks.env_name))/env/env.yml
+      CLUSTER_NAME: ((pks.cluster_name))
       CLUSTER_HOSTNAME: ((pks.cluster_name)).((pks.env_name)).((gcp.parent_zone.dns_suffix))
 
 groups:

@@ -8,6 +8,7 @@ inputs:
 params:
   ENV_FILE: env.yml
   CLUSTER_HOSTNAME:
+  CLUSTER_NAME:
   # - Filepath of the env config YAML
   # - The path is relative to root of the `env` input
 
@@ -28,6 +29,6 @@ run:
 
     echo "starting cluster creation"
     ./pks-cli login -a $PKS_API -u admin -p $PKS_PASSWORD -k
-    ./pks-cli create-cluster -e "${CLUSTER_HOSTNAME}" -p small --wait
+    ./pks-cli create-cluster "${CLUSTER_NAME}" -e "${CLUSTER_HOSTNAME}" -p small --wait
 
     
