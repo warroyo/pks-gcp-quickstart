@@ -22,11 +22,12 @@ run:
     chmod +x jq
     mv pks/pks-linux-* pks-cli
     chmod +x pks-cli
+    echo "getting pks creds"
     export PKS_PASSWORD="$(om --env env/${ENV_FILE} credentials --product-name pivotal-container-service --credential-reference .properties.uaa_admin_password)" 
     export PKS_API="$(./jq -r .pks_api_endpoint terraform-output/metadata)"
 
-
-    ./pks-cli login -a $PKS_API -u admin -p $PKS_PASSWORD
+    echo "starting cluster creation"
+    ./pks-cli login -a $PKS_API -u admin -p $PKS_PASSWORD -k
     ./pks-cli create-cluster -e "${CLUSTER_DOMAIN}" -p small --wait
 
     
