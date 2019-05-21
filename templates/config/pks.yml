@@ -10,13 +10,13 @@ product-properties:
     selected_option: gcp
     value: GCP
   .properties.cloud_provider.gcp.master_service_account:
-    value: {{ (ds "data").pks_master_node_service_account_key }}
+    value: {{ (ds "data").pks_master_node_service_account_key.client_email }}
   .properties.cloud_provider.gcp.network:
     value: {{ (ds "data").network_name }}
   .properties.cloud_provider.gcp.project_id:
     value: {{ (ds "data").project }}
   .properties.cloud_provider.gcp.worker_service_account:
-    value: {{ (ds "data").pks_worker_node_service_account_key }}
+    value: {{ (ds "data").pks_worker_node_service_account_key.client_email }}
   .properties.log_sink_resources_deploy:
     value: true
   .properties.metric_sink_resources_deploy:
@@ -115,7 +115,7 @@ errand-config:
   delete-all-clusters:
     pre-delete-state: true
   pks-nsx-t-precheck:
-    post-deploy-state: true
+    post-deploy-state: false
   smoke-tests:
     post-deploy-state: true
   upgrade-all-service-instances:
