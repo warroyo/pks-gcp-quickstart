@@ -10,13 +10,13 @@ product-properties:
     selected_option: gcp
     value: GCP
   .properties.cloud_provider.gcp.master_service_account:
-    value: {{ (ds "data").pks_master_node_service_account_key.client_email }}
+    value: {{ ((ds "data").pks_master_node_service_account_key | json).client_email }}
   .properties.cloud_provider.gcp.network:
     value: {{ (ds "data").network_name }}
   .properties.cloud_provider.gcp.project_id:
     value: {{ (ds "data").project }}
   .properties.cloud_provider.gcp.worker_service_account:
-    value: {{ (ds "data").pks_worker_node_service_account_key.client_email }}
+    value: {{ ((ds "data").pks_worker_node_service_account_key | json).client_email }}
   .properties.log_sink_resources_deploy:
     value: true
   .properties.metric_sink_resources_deploy:
