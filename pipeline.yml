@@ -625,3 +625,47 @@ jobs:
     params:
       repository: state-commit
       merge: true
+
+- name: create-cluster
+  public: false
+  plan:
+  - aggregate:
+    - get: platform-automation-image
+      params: {unpack: true, globs: [platform-automation-image-*.tgz]}
+    - get: configuration
+    - get: pcf-automation-source
+    - get: env-state-gcp
+    - get: pks
+      params:
+        globs:
+        - pks-linux*
+  - <<: *interpolate
+  - task: create-cluster
+    image: platform-automation-image
+    file: pcf-automation-source/tasks/create-cluster.yml
+    input_mapping:
+      terraform-output: env-state-gcp
+      env: configuration-interpolated
+    params:
+      ENV_FILE: ((pks.env_name))/env/env.yml
+      CLUSTER_HOSTNAME: ((pks.cluster_name)).((pks.env_name)).((gcp.parent_zone.dns_suffix))
+
+groups:
+- name: deploy
+  jobs:
+  - terraforming-gcp
+  - bootstrap-configuration
+  - install-opsman
+  - upload-stemcell
+  - configure-pks
+  - upload-and-stage-pks
+  - apply-product-changes
+- name: create-cluster
+  jobs:
+  # - terraforming-k8s
+  - create-cluster
+- name: destroy
+  jobs:
+  - destroy-terraform
+  # - destroy-cluster-tf
+  - destroy-installation

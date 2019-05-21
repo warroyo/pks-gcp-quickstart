@@ -1,0 +1,29 @@
+---
+platform: linux
+
+inputs:
+- name: env # contains the env file with target OpsMan Information
+- name: terraform-output
+params:
+  ENV_FILE: env.yml
+  CLUSTER_HOSTNAME:
+  # - Filepath of the env config YAML
+  # - The path is relative to root of the `env` input
+
+run:
+  path: bash
+  args:
+  - "-c"
+  - |
+    set -eu
+    cat /var/version && echo ""
+    curl -L -s -o jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
+    chmod +x jq
+    export PKS_PASSWORD="$(om --env env/${ENV_FILE} credentials --product-name pivotal-container-service --credential-reference .properties.uaa_admin_password)" 
+    export PKS_API="$(./jq -r .pks_api_endpoint terraform-output/metadata)"
+
+
+    pks login -a $PKS_API -u admin -p $PKS_PASSWORD
+    pks create-cluster -e "${CLUSTER_DOMAIN}" -p small --wait
+
+    
