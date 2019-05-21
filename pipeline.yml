@@ -104,6 +104,23 @@ resources:
       parent_managed_zone: ((gcp.parent_zone.name))
       email: ((email))
 
+- name: cluster-state-gcp
+  type: terraform
+  source:
+    backend_type: gcs
+    backend_config:
+      bucket: ((gcp.buckets.terraform))
+      prefix: ((pks.env_name))-cluster
+      credentials: ((gcp.gcp_service_account))
+    vars:
+      project: ((gcp.project))
+      region: ((gcp.region))
+      zones: ((gcp.zones))
+      service_account_key: ((gcp.gcp_service_account))
+      buckets_location: ((gcp.buckets_location))
+      cluster_name: ((pks.cluster_name))
+      dns_zone_dns_name: ((pks.env_name)).((gcp.parent_zone.dns_suffix))
+
 
 
 
@@ -651,6 +668,23 @@ jobs:
       ENV_FILE: ((pks.env_name))/env/env.yml
       CLUSTER_NAME: ((pks.cluster_name))
       CLUSTER_HOSTNAME: ((pks.cluster_name)).((pks.env_name)).((gcp.parent_zone.dns_suffix))
+
+- name: terraforming-k8s
+  serial: true
+  public: false
+  plan:
+  - get: configuration
+    trigger: true
+    passed: ['create-cluster']
+  - get: pcf-automation-source
+  - <<: *interpolate
+  - put: cluster-state-gcp
+    params:
+      env_name: ((pks.env_name))
+      terraform_source: pcf-automation-source/terraforming-k8s
+      delete_on_failure: false
+      var_files: configuration-interpolated/((pks.env_name))/tf/terraform.tfvars
+
 
 groups:
 - name: deploy
