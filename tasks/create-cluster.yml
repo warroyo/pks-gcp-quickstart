@@ -26,7 +26,7 @@ run:
     export PKS_API="$(./jq -r .pks_api_endpoint terraform-output/metadata)"
 
 
-    pks-cli login -a $PKS_API -u admin -p $PKS_PASSWORD
-    pks-cli create-cluster -e "${CLUSTER_DOMAIN}" -p small --wait
+    ./pks-cli login -a $PKS_API -u admin -p $PKS_PASSWORD
+    ./pks-cli create-cluster -e "${CLUSTER_DOMAIN}" -p small --wait
 
     
