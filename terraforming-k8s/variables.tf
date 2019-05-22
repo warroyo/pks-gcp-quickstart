@@ -1,4 +1,6 @@
-variable "instances" {}
+variable "instances" {
+    default = ""
+}
 variable "env_name" {}
 
 variable "service_account_key" {}

@@ -572,7 +572,7 @@ jobs:
     - get: configuration
       trigger: true
       passed:
-      - destroy-installation
+      - destroy-tf-k8s
     - get: tf
       params:
         globs:
@@ -706,6 +706,33 @@ jobs:
       delete_on_failure: false
       var_files: ["configuration-interpolated/((pks.env_name))/tf/terraform.tfvars"]
 
+- name: destroy-tf-k8s
+  serial: true
+  public: false
+  plan:
+  - get: platform-automation-image
+    params: {unpack: true, globs: [platform-automation-image-*.tgz]}
+  - get: configuration
+    trigger: true
+    passed:
+    - destroy-installation
+  - get: env-state-gcp
+  - get: pcf-automation-source
+  - get: pks
+    params:
+      globs:
+      - pks-linux*
+  - <<: *interpolate
+  - put: cluster-state-gcp
+    params:
+      env_name: ((pks.env_name))
+      terraform_source: pcf-automation-source/terraforming-k8s
+      delete_on_failure: false
+      var_files: ["configuration-interpolated/((pks.env_name))/tf/terraform.tfvars"]
+      action: destroy
+    get_params:
+      action: destroy
+
 
 groups:
 - name: deploy
@@ -724,5 +751,5 @@ groups:
 - name: destroy
   jobs:
   - destroy-terraform
-  # - destroy-cluster-tf
+  - destroy-tf-k8s
   - destroy-installation
