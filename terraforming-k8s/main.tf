@@ -63,8 +63,8 @@ resource "google_compute_address" "lb" {
   count = 1
 }
 
-resource "google_dns_record_set" "cluser-dns" {
-  name = "${var.cluster_name}.${var.dns_zone_dns_name}"
+resource "google_dns_record_set" "cluster-dns" {
+  name = "${var.cluster_name}.${var.dns_zone_dns_name}."
   type = "A"
   ttl  = 300
 
