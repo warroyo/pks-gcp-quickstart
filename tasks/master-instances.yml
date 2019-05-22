@@ -57,4 +57,4 @@ run:
     
     echo "MASTER_INSTANCE_ID=$MASTER_INSTANCE_ID"
     cp -a env/* tf-modified
-    printf '\n%s' "instances = $MASTER_INSTANCE_ID" >> tf-modified/$TF_FILE
+    printf '\n%s' "instances = \"$MASTER_INSTANCE_ID\"" >> tf-modified/$TF_FILE

@@ -104,22 +104,22 @@ resources:
       parent_managed_zone: ((gcp.parent_zone.name))
       email: ((email))
 
-# - name: cluster-state-gcp
-#   type: terraform
-#   source:
-#     backend_type: gcs
-#     backend_config:
-#       bucket: ((gcp.buckets.terraform))
-#       prefix: ((pks.env_name))-cluster
-#       credentials: ((gcp.gcp_service_account))
-#     vars:
-#       project: ((gcp.project))
-#       region: ((gcp.region))
-#       zones: ((gcp.zones))
-#       service_account_key: ((gcp.gcp_service_account))
-#       buckets_location: ((gcp.buckets_location))
-#       cluster_name: ((pks.cluster_name))
-#       dns_zone_dns_name: ((pks.env_name)).((gcp.parent_zone.dns_suffix))
+- name: cluster-state-gcp
+  type: terraform
+  source:
+    backend_type: gcs
+    backend_config:
+      bucket: ((gcp.buckets.terraform))
+      prefix: ((pks.env_name))-cluster
+      credentials: ((gcp.gcp_service_account))
+    vars:
+      project: ((gcp.project))
+      region: ((gcp.region))
+      zones: ((gcp.zones))
+      service_account_key: ((gcp.gcp_service_account))
+      buckets_location: ((gcp.buckets_location))
+      cluster_name: ((pks.cluster_name))
+      dns_zone_dns_name: ((pks.env_name)).((gcp.parent_zone.dns_suffix))
 
 
 
