@@ -5,9 +5,10 @@ It is using [terraforming-gcp](https://github.com/pivotal-cf/terraforming-gcp) a
 
 # Features
 
+* deploys PKS as well as an initial cluster
 * the pipeline can be deployed multiple times with different values for `env_name`
   * for each pipeline there will be a dedicated subdomain created in gcp: `env_name.dns_suffix`
-* letsencrypt certificates are generated for PKS and Ops Manager and Harbor.
+* letsencrypt certificates are generated for PKS and Ops Manager.\
 
 # Reqirements
 
