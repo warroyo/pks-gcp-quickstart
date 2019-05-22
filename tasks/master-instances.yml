@@ -34,7 +34,7 @@ run:
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 
     # Update the package list and install the Cloud SDK
-    apt-get update && sudo apt-get install google-cloud-sdk
+    apt-get update && apt-get install google-cloud-sdk
 
     curl -L -s -o jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
     chmod +x jq
