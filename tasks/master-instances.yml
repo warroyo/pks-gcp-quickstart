@@ -7,12 +7,13 @@ inputs:
 - name: pks
 
 outputs:
-- name: env-modified
+- name: tf-modified
 
 params:
   ENV_FILE: env.yml
   CLUSTER_NAME:
   GCP_ACCOUNT:
+  TF_FILE:
   
 
 
@@ -55,4 +56,5 @@ run:
     # MASTER_INSTANCE_ID=$(ssh -oStrictHostKeyChecking=accept-new -oUserKnownHostsFile=/dev/null ubuntu@${OM_HOST} -i ops_manager_ssh_private_key.pem $BOSH_CMD -d service-instance_${CLUSTER_UUID} vms --json | ./jq -r -c '.Tables[0].Rows[] | select(.instance | startswith("master")) | .vm_cid')
     
     echo "MASTER_INSTANCE_ID=$MASTER_INSTANCE_ID"
-    exit 1
+    cp -a env/* tf-modified
+    printf '\n%s' "instances = $MASTER_INSTANCE_ID" >> tf-modified/$TF_FILE

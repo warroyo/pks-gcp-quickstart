@@ -693,17 +693,18 @@ jobs:
       env: configuration-interpolated
       pks: pks
     output_mapping:
-      env-modified: configuration-interpolated
+      tf-modified: configuration-interpolated
     params:
       ENV_FILE: ((pks.env_name))/env/env.yml
+      TF_FILE: ((pks.env_name))/tf/terraform.tfvars
       CLUSTER_NAME: ((pks.cluster_name))
       GCP_ACCOUNT: ((gcp.gcp_service_account))
-  # - put: cluster-state-gcp
-  #   params:
-  #     env_name: ((pks.env_name))
-  #     terraform_source: pcf-automation-source/terraforming-k8s
-  #     delete_on_failure: false
-  #     var_files: ["configuration-interpolated/((pks.env_name))/tf/terraform.tfvars"]
+  - put: cluster-state-gcp
+    params:
+      env_name: ((pks.env_name))
+      terraform_source: pcf-automation-source/terraforming-k8s
+      delete_on_failure: false
+      var_files: ["configuration-interpolated/((pks.env_name))/tf/terraform.tfvars"]
 
 
 groups:
