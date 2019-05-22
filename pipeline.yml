@@ -718,7 +718,6 @@ jobs:
     - destroy-installation
   - get: env-state-gcp
   - get: pcf-automation-source
-  - get: pks
     params:
       globs:
       - pks-linux*
