@@ -47,7 +47,7 @@ run:
     gcloud auth activate-service-account --key-file ./gcp_account.key.json
     GCP_ZONE=$(./jq -r .azs[0] terraform-output/metadata)
     echo "getting master instances"
-    MASTER_INSTANCE_ID=$(gcloud compute ssh --quiet --force-key-file-overwrite --zone "${GCP_ZONE}" ubuntu@sandbox-opsman --command "$BOSH_CMD -d service-instance_${CLUSTER_UUID} vms --json | jq -r -c '.Tables[0].Rows[] | select(.instance | startswith(\"master\")) | .vm_cid')")
+    MASTER_INSTANCE_ID=$(gcloud compute ssh --quiet --force-key-file-overwrite --zone "${GCP_ZONE}" ubuntu@sandbox-opsman --command "$BOSH_CMD -d service-instance_${CLUSTER_UUID} vms --json | jq -r -c '.Tables[0].Rows[] | select(.instance | startswith(\"master\")) | .vm_cid'")
     # ./jq -r .ops_manager_ssh_private_key terraform-output/metadata > ops_manager_ssh_private_key.pem
     # chmod 600 ops_manager_ssh_private_key.pem
     # MASTER_INSTANCE_ID=$(ssh -oStrictHostKeyChecking=accept-new -oUserKnownHostsFile=/dev/null ubuntu@${OM_HOST} -i ops_manager_ssh_private_key.pem $BOSH_CMD -d service-instance_${CLUSTER_UUID} vms --json | ./jq -r -c '.Tables[0].Rows[] | select(.instance | startswith("master")) | .vm_cid')
