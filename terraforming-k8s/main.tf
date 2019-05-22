@@ -77,7 +77,7 @@ resource "google_compute_forwarding_rule" "lb" {
   name        = "${var.env_name}-${var.cluster_name}-lb"
   ip_address  = "${google_compute_address.lb.address}"
   target      = "${google_compute_target_pool.lb.self_link}"
-  port_range  = ["8443"]
+  port_range  = "8443"
   ip_protocol = "TCP"
 
   count = 1
