@@ -12,7 +12,7 @@ terraform {
 
 locals {
   lb_name = "${var.env_name}-${var.cluster_name}-api"
-  target_tags = ["${local.lb_name}", "master_vms"]
+  target_tags = ["${local.lb_name}", "master"]
 }
 
 resource "google_compute_http_health_check" "lb" {
@@ -87,6 +87,6 @@ resource "google_compute_target_pool" "lb" {
   name = "${var.env_name}-${var.cluster_name}-api"
 
   health_checks = ["${google_compute_http_health_check.lb.*.name}"]
-
+  instances = ["${var.instances}"]
   count = 1
 }

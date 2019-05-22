@@ -678,13 +678,29 @@ jobs:
     passed: ['create-cluster']
   - get: env-state-gcp
   - get: pcf-automation-source
-  - <<: *interpolate
-  - put: cluster-state-gcp
+  - get: pks
     params:
-      env_name: ((pks.env_name))
-      terraform_source: pcf-automation-source/terraforming-k8s
-      delete_on_failure: false
-      var_files: configuration-interpolated/((pks.env_name))/tf/terraform.tfvars
+      globs:
+      - pks-linux*
+  - <<: *interpolate
+  - task: get-master-instances
+    image: platform-automation-image
+    file: pcf-automation-source/tasks/master-instances.yml
+    input_mapping:
+      terraform-output: env-state-gcp
+      env: configuration-interpolated
+      pks: pks
+    output_mapping:
+      env-modified: configuration-interpolated
+    params:
+      ENV_FILE: ((pks.env_name))/env/env.yml
+      CLUSTER_NAME: ((pks.cluster_name))
+  # - put: cluster-state-gcp
+  #   params:
+  #     env_name: ((pks.env_name))
+  #     terraform_source: pcf-automation-source/terraforming-k8s
+  #     delete_on_failure: false
+  #     var_files: ["configuration-interpolated/((pks.env_name))/tf/terraform.tfvars"]
 
 
 groups:
