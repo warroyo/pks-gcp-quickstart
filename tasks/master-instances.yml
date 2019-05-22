@@ -43,6 +43,7 @@ run:
     
     #due to p-automator not allowing foir setting a public key on gcp we need to gcloud ssh.
     echo ${GCP_ACCOUNT} > gcp_account.key.json
+    export CLOUDSDK_CORE_PROJECT="$(./jq -r .project terraform-output/metadata)"
     gcloud auth activate-service-account --key-file ./gcp_account.key.json
     GCP_ZONE=$(./jq -r .azs[0] terraform-output/metadata)
     echo "getting master instances"
