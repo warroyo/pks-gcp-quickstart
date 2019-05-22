@@ -1,7 +1,7 @@
 # pks-gcp-quickstart
 
 This repo contains a concourse pipeline and tasks to automatically deploy PKS on GCP, including paving the environment using Terraform. This is meant for POCs and getting a minimal platform up quickly in a self contained way. this should not be used for production.
-It is using [terraforming-gcp](https://github.com/pivotal-cf/terraforming-gcp) and [Platform Automation](http://docs-platform-automation.cfapps.io/platform-automation/v2.0/index.html) to do so.
+It is using [terraforming-gcp](https://github.com/pivotal-cf/terraforming-gcp) and [Platform Automation](http://docs.pivotal.io/platform-automation/v2.2/) to do so.
 
 # Features
 

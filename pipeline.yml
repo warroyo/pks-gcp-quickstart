@@ -697,6 +697,7 @@ jobs:
     params:
       ENV_FILE: ((pks.env_name))/env/env.yml
       CLUSTER_NAME: ((pks.cluster_name))
+      GCP_ACCOUNT: ((gcp.gcp_service_account))
   # - put: cluster-state-gcp
   #   params:
   #     env_name: ((pks.env_name))
