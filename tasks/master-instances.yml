@@ -23,18 +23,6 @@ run:
   - |
     set -eu
     cat /var/version && echo ""
-    # #install gcloud sdk (can be removed after we support gcp ssh keys)
-    # # Create environment variable for correct distribution
-    # CLOUD_SDK_REPO="cloud-sdk-$(grep VERSION_CODENAME /etc/os-release | cut -d '=' -f 2)"
-
-    # # Add the Cloud SDK distribution URI as a package source
-    # echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-
-    # # Import the Google Cloud Platform public key
-    # curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-
-    # # Update the package list and install the Cloud SDK
-    # apt-get update && apt-get install google-cloud-sdk
 
     curl -L -s -o jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
     chmod +x jq
@@ -48,7 +36,6 @@ run:
    
 
     CLUSTER_UUID=$(./pks-cli cluster ${CLUSTER_NAME} --json | ./jq -c -r ".uuid")
-    # CLUSTER_HOST=$(./pks-cli cluster ${CLUSTER_NAME} --json | jq -c -r ".parameters.kubernetes_master_host")
 
     OM_HOST="$(./jq -r .ops_manager_dns terraform-output/metadata)"
 
@@ -58,6 +45,7 @@ run:
     echo ${GCP_ACCOUNT} > gcp_account.key.json
     gcloud auth activate-service-account --key-file ./gcp_account.key.json
     GCP_ZONE=$(./jq -r .azs[0] terraform-output/metadata)
+    echo "getting master instances"
     MASTER_INSTANCE_ID=$(gcloud compute ssh --force-key-file-overwrite --zone "${GCP_ZONE}" "sandbox-opsman" -- $BOSH_CMD -d service-instance_${CLUSTER_UUID} vms --json | ./jq -r -c '.Tables[0].Rows[] | select(.instance | startswith("master")) | .vm_cid')
     # ./jq -r .ops_manager_ssh_private_key terraform-output/metadata > ops_manager_ssh_private_key.pem
     # chmod 600 ops_manager_ssh_private_key.pem
